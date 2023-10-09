@@ -10,6 +10,16 @@ public class Main {
             return false;
         }
     }
+
+    private static boolean isDouble(String value) {
+        try {
+            Double.parseDouble(value);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
 
         //После запуска программа должна спрашивать у пользователя, на скольких человек необходимо разделить счёт.
@@ -36,29 +46,43 @@ public class Main {
                    System.out.println("Введите корректное количество гостей.");
                }
            }
-            
 
 
 
+        
         //Запросите у пользователя название товара и его стоимость.
         Calculator calculator = new Calculator();
 
 
-
+        double costGoods = 0;
         while (true) {
+            
             Scanner scannerr = new Scanner(System.in);
 
             System.out.println("Введите название товара");
             String productName = scannerr.nextLine();
 
+            while (true) {
+                System.out.println("Введите стоимость товара (в формате руб.копейки) ");
+                String costG = scannerr.next();
 
-            System.out.println("Введите стоимость товара (в формате руб,копейки) ");
-            double costGoods = scannerr.nextDouble();
+                boolean isDouble = isDouble(costG);
+
+                if (isDouble) {
+                    costGoods = Double.parseDouble(costG);
+
+                    if (costGoods < 1) {
+                        System.out.println("Это некорректное значение для подсчёта.");
+                    } else if (costGoods > 0) {
+                        break;
+                    }
+                } else {
+                    System.out.println("Введите корректное количество стоимость товара.");
+                }
+            }
 
 
-
-
-            calculator.addProduct(productName, costGoods);
+                calculator.addProduct(productName, costGoods);
             System.out.println("Товар успешно добавлен");
 
             calculator.countingGoods( numberPeople,  costGoods);
